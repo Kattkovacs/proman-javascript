@@ -30,6 +30,7 @@ export let dom = {
         `;
 
         let boardsContainer = document.querySelector('#boards');
+        boardsContainer.innerHTML = '';
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
     },
     loadCards: function (boardId) {
