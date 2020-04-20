@@ -4,19 +4,19 @@ ALTER TABLE IF EXISTS ONLY public.cards DROP CONSTRAINT IF EXISTS fk_board_id CA
 ALTER TABLE IF EXISTS ONLY public.cards DROP CONSTRAINT IF EXISTS fk_statusses_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.statuses DROP CONSTRAINT IF EXISTS pk_statuses_id CASCADE;
 
-DROP TABLE IF EXISTS public.boards;
+DROP TABLE IF EXISTS public.boards CASCADE;
 CREATE TABLE boards (
     id serial NOT NULL,
     title varchar
 );
 
-DROP TABLE IF EXISTS public.statuses;
+DROP TABLE IF EXISTS public.statuses CASCADE;
 CREATE TABLE statuses (
     id serial NOT NULL,
     title varchar
 );
 
-DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS public.cards CASCADE;
 CREATE TABLE cards (
     id serial NOT NULL,
     board_id  integer,
@@ -69,9 +69,3 @@ INSERT INTO cards VALUES (10,2,'planning',2,0);
 INSERT INTO cards VALUES (11,2,'done card 1',3,0);
 INSERT INTO cards VALUES (12,2,'done card 1',3,1);
 SELECT pg_catalog.setval('cards_id_seq', 12, true);
-
-
-
-
-
-
