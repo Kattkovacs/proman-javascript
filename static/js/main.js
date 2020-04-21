@@ -6,6 +6,8 @@ function init() {
     dom.init();
     // loads the boards to the screen
     dom.loadBoards();
+    // loads the cards to the screen
+    dom.loadCards();
 
 }
 
