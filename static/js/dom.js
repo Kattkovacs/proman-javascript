@@ -22,7 +22,7 @@ export let dom = {
                     <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                     <button class="board-add">Add Card</button>
-                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                    <button class="board-toggle" id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     </section>
                     `;
@@ -37,12 +37,24 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.innerHTML = '';
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
+        let expandIcons = document.querySelectorAll('.board-toggle');
+        console.log('expandIcons', expandIcons);
+        for (let expandIcon of expandIcons) {
+            expandIcon.addEventListener('click', function(){
+                console.log('Check the value of "this", when click:', this);
+                console.log(expandIcon.id);
+                // expandBoard(boardId);
+                dom.loadCards(expandIcon.id);
+            });
+        }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        console.log('boardId:',boardId);
         dataHandler.getCardsByBoardId(boardId, function (cards){
             dom.showCards(cards);
-            // console.log(cards)
+            console.log(cards)
         })
     },
     showCards: function (cards) {
