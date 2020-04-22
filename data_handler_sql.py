@@ -61,3 +61,26 @@ def get_statuses(cursor: RealDictCursor):
             ;"""
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_cards_by_board_id(cursor: RealDictCursor, board_id):
+    query = f"""
+            SELECT *
+            FROM cards
+            WHERE board_id = %(b_id)s
+            ;"""
+    cursor.execute(query, {'b_id': board_id})
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_card_by_status_id(cursor: RealDictCursor, status_id):
+    query = f"""
+            SELECT *
+            FROM cards
+            WHERE status_id = %(s_id)s
+            ;"""
+    param = {'s_id': status_id}
+    cursor.execute(query, param)
+    return cursor.fetchall()
