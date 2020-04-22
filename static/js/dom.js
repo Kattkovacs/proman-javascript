@@ -46,7 +46,12 @@ export let dom = {
             boardsToggle[i].setAttribute('boardId', `${boardId}`);
             boardsToggle[i].addEventListener('click', function () {
                 let boardId = boardsToggle[i].getAttribute('boardId');
-                dom.expandBoard(boardId);
+                let boardContainer = document.getElementById(boardId);
+                if(boardContainer.querySelector('.board-columns')){
+                    boardContainer.removeChild(boardContainer.querySelector('.board-columns'))
+                } else{
+                    dom.expandBoard(boardId);
+                }
             });
         }
     },
