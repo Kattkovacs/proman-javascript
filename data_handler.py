@@ -1,6 +1,11 @@
 import persistence
 
 
+def get_statuses():
+    statuses = persistence.get_statuses()
+    return statuses
+
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id

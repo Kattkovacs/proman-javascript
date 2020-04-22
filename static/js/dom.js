@@ -17,18 +17,18 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
-                    boardList += `
-                    <section class="board">
+        for (let board of boards) {
+            boardList += `
+                    <section class="board" id="${board.id}">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                     <button class="board-add">Add Card</button>
-                    <button class="board-toggle" id="${board.id}"><i class="fas fa-chevron-down"></i></button>
+                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     </section>
                     `;
-                }
+        }
 
-                const outerHtml = `
+        const outerHtml = `
                     <div class="board-container">
                         ${boardList}
                     </div>
@@ -37,17 +37,39 @@ export let dom = {
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.innerHTML = '';
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        let boardsToggle = document.querySelectorAll('.board-toggle');
+        let boardsId = document.querySelectorAll('.board');
 
-        let expandIcons = document.querySelectorAll('.board-toggle');
-        console.log('expandIcons', expandIcons);
-        for (let expandIcon of expandIcons) {
-            expandIcon.addEventListener('click', function(){
-                console.log('Check the value of "this", when click:', this);
-                console.log(expandIcon.id);
-                // expandBoard(boardId);
-                dom.loadCards(expandIcon.id);
+        for (let i = 0; i < boardsToggle.length; i++) {
+            // let boardId = parseInt(boardsId[i].id);
+            let boardId = boardsId[i].id;
+            boardsToggle[i].setAttribute('boardId', `${boardId}`);
+            boardsToggle[i].addEventListener('click', function () {
+                let boardId = boardsToggle[i].getAttribute('boardId');
+                dom.expandBoard(boardId);
             });
         }
+    },
+    expandBoard: function (boardId) {
+        let allStatuses = dataHandler.getStatuses(function (allStatuses) {
+        let statusColumns = '';
+
+        for (let status of allStatuses) {
+                statusColumns += `
+                    <div class="board-column">
+                    <div class="board-column-title">${status.title}</div>
+                    `;
+            }
+
+                const outerHtml = `
+                <div class="board-columns">
+                ${statusColumns}
+                </div>
+                `;
+
+        let currentBoard = document.getElementById(`${boardId}`);
+        currentBoard.insertAdjacentHTML("beforeend", outerHtml);
+        });
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
