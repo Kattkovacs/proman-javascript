@@ -21,7 +21,7 @@ CREATE TABLE cards (
     id serial NOT NULL,
     board_id  integer,
     title varchar,
-    status_id integer,
+    status_id integer DEFAULT 0,
     "order" integer
 );
 
