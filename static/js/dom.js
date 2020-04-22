@@ -58,6 +58,8 @@ export let dom = {
                 statusColumns += `
                     <div class="board-column">
                     <div class="board-column-title">${status.title}</div>
+                    <div class="board-column-content"></div>
+                    </div>
                     `;
             }
 
