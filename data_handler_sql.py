@@ -1,9 +1,8 @@
-from psycopg2.extras import RealDictCursor,_cursor
-import psycopg2
-import psycopg2.extras
+from psycopg2.extras import RealDictCursor
 import database_common
 
 # SQL STARTS FROM HERE
+
 
 @database_common.connection_handler
 def create_board(cursor: RealDictCursor, board_title):
