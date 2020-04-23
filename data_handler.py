@@ -1,6 +1,7 @@
 import persistence
 import data_handler_sql
 
+
 # def get_statuses_csv():
 #     statuses = persistence.get_statuses()
 #     return statuses
@@ -8,6 +9,7 @@ import data_handler_sql
 def get_statuses():
     statuses = data_handler_sql.get_statuses()
     return statuses
+
 
 #
 # def get_card_status_csv(status_id):
@@ -27,6 +29,7 @@ def get_card_status(status_id):
     """
     statuses = data_handler_sql.get_card_by_status_id(status_id)
     return statuses
+
 
 # def get_boards_csv():
 #     """
@@ -58,4 +61,3 @@ def get_boards():
 def get_cards_for_board(board_id):
     matching_cards = data_handler_sql.get_cards_by_board_id(board_id)
     return matching_cards
-
