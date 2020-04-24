@@ -76,7 +76,9 @@ export let dom = {
         let currentBoard = document.getElementById(`${boardId}`);
         currentBoard.insertAdjacentHTML("beforeend", outerHtml);
 
-        let allBoardColumn = document.getElementsByClassName('board-column-content');
+        //Important: we have to get elements from the currentBoard (see in 81) instead of the whole document (see in 80)
+        // let allBoardColumn = document.getElementsByClassName('board-column-content');
+        let allBoardColumn = currentBoard.getElementsByClassName('board-column-content');
 
         for (let i = 0; i < allBoardColumn.length; i++) {
             allBoardColumn[i].setAttribute('columnId', `${allStatuses[i].id}`);
@@ -93,14 +95,13 @@ export let dom = {
     showCards: function (boardId, cards, allBoardColumn) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        for (let card of cards) {
+            let cardElement = '';
+            let statusId = card.status_id;
+            let cardTitle = card.title;
 
-        for (let boardColumn of allBoardColumn) {
-
-            let columnId = Number(boardColumn.getAttribute('columnId'));
-            for (let card of cards) {
-                let cardElement = '';
-                let statusId = card.status_id;
-                let cardTitle = card.title;
+            for (let boardColumn of allBoardColumn) {
+                let columnId = Number(boardColumn.getAttribute('columnId'));
                 if (statusId === columnId) {
                     cardElement += `
                          <div class="card">
