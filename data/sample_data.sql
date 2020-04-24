@@ -59,7 +59,7 @@ SELECT pg_catalog.setval('statuses_id_seq', 4, true);
 INSERT INTO cards VALUES (1,1,'Boards list overview',3,0);
 INSERT INTO cards VALUES (2,1,'Create public boards',1,1);
 INSERT INTO cards VALUES (3,1,'Rename board',0,0);
-INSERT INTO cards VALUES (4,1,'Board view with 4 default columns',2,0);
+INSERT INTO cards VALUES (4,1,'Board view with 4 default columns',3,0);
 INSERT INTO cards VALUES (5,1,'Board view with dynamic columns',0,0);
 INSERT INTO cards VALUES (6,1,'Rename columns',0,1);
 INSERT INTO cards VALUES (7,1,'Create card',0,0);
