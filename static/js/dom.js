@@ -4,6 +4,10 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
+        let saveButton = document.querySelector("#save-button");
+        saveButton.addEventListener('click', function(){
+            dom.getBoardTitle();
+        });
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -115,4 +119,10 @@ export let dom = {
         }
     },
     // here comes more features
+    getBoardTitle:function() {
+        let boardTitle = document.querySelector('#board-name').value;
+        dataHandler.createNewBoard(boardTitle, function() {
+           alert("hello");
+        })
+ },
 };

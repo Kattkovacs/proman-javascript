@@ -61,3 +61,7 @@ def get_boards():
 def get_cards_for_board(board_id):
     matching_cards = data_handler_sql.get_cards_by_board_id(board_id)
     return matching_cards
+
+
+def create_board(board_title):
+    return data_handler_sql.create_board(board_title)
