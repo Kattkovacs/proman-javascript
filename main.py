@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 from util import json_response
 
 import data_handler
@@ -51,6 +51,12 @@ def create_board():
     """
     board_title = request.get_json()
     return data_handler.create_board(board_title)
+
+
+@app.route("/boards/<board_id>/delete")
+@json_response
+def delete(board_id: int):
+    return data_handler.delete_board(board_id)
 
 
 def main():

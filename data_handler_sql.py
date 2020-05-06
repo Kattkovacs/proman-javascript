@@ -85,3 +85,14 @@ def get_card_by_status_id(cursor: RealDictCursor, status_id):
     param = {'s_id': status_id}
     cursor.execute(query, param)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def delete_board(cursor: RealDictCursor, board_id):
+    print(board_id)
+    query = f"""
+            DELETE FROM boards 
+            WHERE id = %(board_id)s
+            RETURNING id;"""
+    cursor.execute(query, {'board_id': board_id})
+    return cursor.fetchone()
