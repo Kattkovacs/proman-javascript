@@ -136,6 +136,8 @@ export let dom = {
             dom.showBoards(boards);
             let boardsToggle = document.querySelectorAll(`.board-toggle[data-boardId="${response.id}"]`);
             dom.addEventHandlerToBoardsToggle(boardsToggle);
+            let boardsRemove = document.querySelectorAll(`.board-remove[data-boardId="${response.id}"]`);
+            dom.addEventHandlerToBoardsDelete(boardsRemove);
         })
  },
 };
