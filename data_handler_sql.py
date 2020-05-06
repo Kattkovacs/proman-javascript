@@ -9,11 +9,12 @@ def create_board(cursor: RealDictCursor, board_title):
     query = f"""
         INSERT INTO boards (title)
         VALUES (
-                %(title)s
+                %(boardTitle)s
                 )
---                 RETURNING id
+               RETURNING id
                 ;"""
     cursor.execute(query, board_title)
+    return cursor.fetchone()
 
 
 @database_common.connection_handler

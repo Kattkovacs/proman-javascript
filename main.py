@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler
@@ -41,6 +41,16 @@ def get_statuses():
     Get all the general statuses from database
     """
     return data_handler.get_statuses()
+
+
+@app.route("/new-board", methods=['POST'])
+@json_response
+def create_board():
+    """
+    Get all the general statuses from database
+    """
+    board_title = request.get_json()
+    return data_handler.create_board(board_title)
 
 
 def main():
