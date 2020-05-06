@@ -53,6 +53,14 @@ def create_board():
     return data_handler.create_board(board_title)
 
 
+@app.route("/new-card", methods=['POST'])
+@json_response
+def create_card():
+
+    card_title = request.get_json()
+    return data_handler.create_card(card_title)
+
+
 @app.route("/boards/<board_id>/delete")
 @json_response
 def delete(board_id: int):

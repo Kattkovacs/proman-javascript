@@ -18,6 +18,8 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
             let boardsRemove = document.querySelectorAll('.board-remove');
             dom.addEventHandlerToBoardsDelete(boardsRemove);
+            let boardsAdd = document.querySelectorAll('.board-add');
+            dom.addEventHandlerToAddCard(boardsAdd)
         });
     },
     createBoardContainerHTML: function () {
@@ -37,10 +39,11 @@ export let dom = {
         for (let board of boards) {
             boardHTML += `
                     <section class="board" data-id="${board.id}">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
-                    <button class="board-add">Add Card</button>
-                    <button class="board-remove" data-boardId="${board.id}"><i class="fas fa-trash-alt"></i></button>
+                    <class="board-header"><span class="board-title">${board.title}</span>
+                    <button class="board-add" data-boardId="${board.id}">Add Card</button>
+                    <input type="hidden" class="card-name-input" data-boardId="${board.id}">
                     <button class="board-toggle" data-boardId="${board.id}"><i class="fas fa-chevron-down"></i></button>
+                    <button class="board-remove" data-boardId="${board.id}"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     </section>
                     `;
@@ -73,7 +76,19 @@ export let dom = {
             })
         }
     },
-
+    addEventHandlerToAddCard : function(boardsAdd) {
+        console.log(boardsAdd)
+        for (let boardAdd of boardsAdd) {
+            // console.log(boardAdd)
+            let boardId = boardAdd.getAttribute('data-boardId')
+            console.log(boardId)
+            boardAdd.addEventListener('click', function () {
+                let hidden = boardAdd.parentNode.querySelector(`.card-name-input`);
+                console.log(hidden)
+                hidden.setAttribute('type', 'text')
+            })
+        }
+    },
     expandBoard: function (boardId) {
         dataHandler.getStatuses(function (allStatuses) {
         let statusColumns = '';
@@ -139,5 +154,15 @@ export let dom = {
             let boardsRemove = document.querySelectorAll(`.board-remove[data-boardId="${response.id}"]`);
             dom.addEventHandlerToBoardsDelete(boardsRemove);
         })
- },
+    },
+    createCard:function() {
+        let addCard = document.querySelector('.card-name-input');
+        let cardTitle = addCard.value;
+        let boardId = addCard.getAttribute('data-boardId');
+        dataHandler.createNewCard(cardTitle, boardId, function(response) {
+            console.log('helló')
+        })
+    }
 };
+
+
