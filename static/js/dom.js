@@ -18,49 +18,6 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
         });
     },
-    // showBoards: function (boards) {
-    //     // shows boards appending them to #boards div
-    //     // it adds necessary event listeners also
-    //
-    //     let boardList = '';
-    //
-    //     for (let board of boards) {
-    //         boardList += `
-    //                 <section class="board" id="${board.id}">
-    //                 <div class="board-header"><span class="board-title">${board.title}</span>
-    //                 <button class="board-add">Add Card</button>
-    //                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-    //                 </div>
-    //                 </section>
-    //                 `;
-    //     }
-    //
-    //     const outerHtml = `
-    //                 <div class="board-container">
-    //                     ${boardList}
-    //                 </div>
-    //             `;
-    //
-    //     let boardsContainer = document.querySelector('#boards');
-    //     boardsContainer.innerHTML = '';
-    //     boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
-    //     let boardsToggle = document.querySelectorAll('.board-toggle');
-    //     let boardsId = document.querySelectorAll('.board');
-    //
-    //     for (let i = 0; i < boardsToggle.length; i++) {
-    //         let boardId = boardsId[i].id;
-    //         boardsToggle[i].setAttribute('boardId', `${boardId}`);
-    //         boardsToggle[i].addEventListener('click', function () {
-    //             let boardId = boardsToggle[i].getAttribute('boardId');
-    //             let boardContainer = document.getElementById(boardId);
-    //             if(boardContainer.querySelector('.board-columns')){
-    //                 boardContainer.removeChild(boardContainer.querySelector('.board-columns'))
-    //             } else{
-    //                 dom.expandBoard(boardId);
-    //             }
-    //         });
-    //     }
-    // },
     createBoardContainerHTML: function () {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
@@ -160,9 +117,9 @@ export let dom = {
         let boardTitle = document.querySelector('#board-name').value;
         dataHandler.createNewBoard(boardTitle, function(response) {
             response.title = boardTitle;
-            let boards = [response];
+            let boards = Array(response);
             dom.showBoards(boards);
-            let boardsToggle = document.querySelectorAll(`.board-toggle[data-boardId="${response.id}"`);
+            let boardsToggle = document.querySelectorAll(`.board-toggle[data-boardId="${response.id}"]`);
             dom.addEventHandlerToBoardsToggle(boardsToggle);
         })
  },
