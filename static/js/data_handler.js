@@ -21,7 +21,7 @@ export let dataHandler = {
         // sends the data to the API, and calls callback function
         fetch(url, {
             method: 'POST',
-            credentials: 'include',
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -70,7 +70,6 @@ export let dataHandler = {
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post(`/new-board`, {'boardTitle': boardTitle}, (response) => {
-            //this._data = response; temporary storage
             callback(response);
 
         });
@@ -79,7 +78,6 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
 
         this._api_post(`/new-card`, {'cardTitle': cardTitle,'boardId': boardId}, (response) => {
-            //this._data = response; temporary storage
             callback(response);});
     },
 

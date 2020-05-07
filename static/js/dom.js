@@ -18,8 +18,6 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
             let boardsRemove = document.querySelectorAll('.board-remove');
             dom.addEventHandlerToBoardsDelete(boardsRemove);
-            // let boardsAdd = document.querySelectorAll('.board-add');
-            // dom.addEventHandlerToAddCard(boardsAdd)
             let boardsHeader = document.querySelectorAll('.board-header');
             dom.addEventHandlerToAddCard(boardsHeader)
         });
@@ -37,11 +35,10 @@ export let dom = {
     },
     showBoards: function (boards) {
         let boardHTML = '';
-        // <input type="hidden" class="card-name-input" data-boardId="${board.id}" placeholder="Type card name here...">
         for (let board of boards) {
             boardHTML += `
                     <section class="board" data-id="${board.id}">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
+                    <div class="board-header" data-boardId="${board.id}"><span class="board-title">${board.title}</span>
                     <button class="board-add" data-boardId="${board.id}">Add Card</button>
                     <div class="input-group input-group-sm" style="display: none" data-boardId="${board.id}">
                     <input type="text" class="form-control card-name-input" data-boardId="${board.id}" placeholder="Card's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -84,62 +81,35 @@ export let dom = {
             })
         }
     },
-        // addEventHandlerToAddCard : function(boardsAdd) {
-    //     console.log(boardsAdd)
-    //     for (let boardAdd of boardsAdd) {
-    //         // console.log(boardAdd)
-    //         let boardId = boardAdd.getAttribute('data-boardId')
-    //         console.log(boardId)
-    //         boardAdd.addEventListener('click', function () {
-    //             let hidden = boardAdd.parentNode.querySelector(`.card-name-input`);
-    //             console.log(hidden)
-    //             hidden.setAttribute('type', 'text')
-    //         })
-    //     }
-    // },
-    // This eventHandler works with one single input-field!
-    // addEventHandlerToAddCard : function(boardsHeader) {
-    //     for (let boardHeader of boardsHeader) {
-    //         let boardAdd = boardHeader.querySelector('.board-add');
-    //         boardAdd.addEventListener('click', function () {
-    //             let cardNameInput = boardHeader.querySelector('.card-name-input');
-    //             if(cardNameInput.getAttribute('type') === 'hidden') {
-    //                 cardNameInput.setAttribute('type', 'text');
-    //                 boardAdd.innerHTML='Cancel'
-    //             } else {
-    //                 cardNameInput.setAttribute('type', 'hidden');
-    //                 boardAdd.innerHTML='Add Card'
-    //             }
-    //         })
-    //     }
-    // },
     addEventHandlerToAddCard : function(boardsHeader) {
         for (let boardHeader of boardsHeader) {
             let boardAdd = boardHeader.querySelector('.board-add');
             boardAdd.addEventListener('click', function () {
                 let cardNameInputGroup = boardHeader.querySelector('.input-group');
-                if (cardNameInputGroup.style.display === 'none') {
-                    cardNameInputGroup.style.display = 'inline-flex';
-                } else {
-                    cardNameInputGroup.style.display = 'none';
-                }
+                cardNameInputGroup.style.display = 'inline-flex';
+                dom.addEventHandlerToAddCardSave(cardNameInputGroup);
+                dom.addEventHandlerToAddCardCancel(cardNameInputGroup);
             })
         }
     },
-    addEventHandlerToAddCardSave: function(SaveButton) {
-        SaveButton.addEventListener('click', function() => {
-            let boardId = SaveButton.getAttribute('data-boardId');
-            let cardTitle = document.querySelector(`.card-name-input[data-id="${boardId}"]`);
-            let inputGroup = document.querySelector(`.input-group[data-id="${boardId}"]`);
-            dom.hideInputGroup(inputGroup);
+    addEventHandlerToAddCardSave: function(cardNameInputGroup) {
+        let saveButton = cardNameInputGroup.querySelector('.btn-outline-primary')
+        saveButton.addEventListener('click', function() {
+            let boardId = cardNameInputGroup.getAttribute('data-boardId');
+            let cardTitle = cardNameInputGroup.querySelector(`.card-name-input`).value;
+            dom.hideInputGroup(cardNameInputGroup);
             dom.createCard(cardTitle, boardId)
-
         })
     },
-    hideInputGroup: function(inputGroup) {
-      inputGroup.innerHTML = '';
-      inputGroup.style.display = 'none';
-
+    addEventHandlerToAddCardCancel: function(cardNameInputGroup) {
+        let cancelButton = cardNameInputGroup.querySelector('.btn-outline-secondary')
+        cancelButton.addEventListener('click', function() {
+            dom.hideInputGroup(cardNameInputGroup);
+        })
+    },
+    hideInputGroup: function(cardNameInputGroup) {
+        cardNameInputGroup.querySelector(`.card-name-input`).value = '';
+        cardNameInputGroup.style.display = 'none';
     },
     expandBoard: function (boardId) {
         dataHandler.getStatuses(function (allStatuses) {
@@ -205,15 +175,22 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
             let boardsRemove = document.querySelectorAll(`.board-remove[data-boardId="${response.id}"]`);
             dom.addEventHandlerToBoardsDelete(boardsRemove);
+            let boardsHeader = document.querySelectorAll(`.board-header[data-boardId="${response.id}"]`);
+            dom.addEventHandlerToAddCard(boardsHeader);
         });
         document.querySelector('#board-name').value = '';
     },
-    createCard:function() {
-        let addCard = document.querySelector('.card-name-input');
-        let cardTitle = addCard.value;
-        let boardId = addCard.getAttribute('data-boardId');
+    createCard:function(cardTitle, boardId) {
         dataHandler.createNewCard(cardTitle, boardId, function(response) {
-            console.log('helló')
+            console.log('helló');
+            // dom.expandBoard(boardId);
+            let boardContainer = document.querySelector(`.board[data-id="${boardId}"]`);
+
+                if(boardContainer.querySelector('.board-columns')){
+                    boardContainer.removeChild(boardContainer.querySelector('.board-columns'))
+                } else {
+                    dom.expandBoard(boardId);
+                }
         })
     }
 };

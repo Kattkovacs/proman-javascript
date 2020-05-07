@@ -58,6 +58,7 @@ def create_board():
 def create_card():
 
     card_title = request.get_json()
+    print(card_title)
     return data_handler.create_card(card_title)
 
 

@@ -23,8 +23,8 @@ def create_card(cursor: RealDictCursor, card_data):
     query = f"""
             INSERT INTO cards (board_id, title, status_id, "order")
             VALUES (
-            %(board_id)s,
-            %(title)s,
+            %(boardId)s,
+            %(cardTitle)s,
             DEFAULT, 
             DEFAULT
             )
@@ -33,8 +33,6 @@ def create_card(cursor: RealDictCursor, card_data):
     cursor.execute(query, card_data)
     return cursor.fetchone()
 
-
-# rename variable
 
 @database_common.connection_handler
 def get_boards(cursor: RealDictCursor):
