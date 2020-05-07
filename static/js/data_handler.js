@@ -70,14 +70,18 @@ export let dataHandler = {
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         this._api_post(`/new-board`, {'boardTitle': boardTitle}, (response) => {
-            //this._data = response; temporary storage
             callback(response);
 
         });
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
+    createNewCard: function (cardTitle, boardId, callback) {
         // creates new card, saves it and calls the callback function with its data
+
+        this._api_post(`/new-card`, {'cardTitle': cardTitle, 'boardId': boardId}, (response) => {
+            callback(response);
+        });
     },
+
     // here comes more features
     deleteBoard: function (boardId, callback) {
         this._api_get(`/boards/${boardId}/delete`,(response) => {

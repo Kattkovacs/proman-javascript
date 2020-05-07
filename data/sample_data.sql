@@ -22,7 +22,7 @@ CREATE TABLE cards (
     board_id  integer,
     title varchar,
     status_id integer DEFAULT 0,
-    "order" integer
+    "order" integer DEFAULT 0
 );
 
 ALTER TABLE ONLY boards

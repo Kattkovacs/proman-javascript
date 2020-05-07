@@ -6,7 +6,7 @@ export let dom = {
         // This function should run once, when the page is loaded.
         let saveButton = document.querySelector("#save-button");
         saveButton.addEventListener('click', function(){
-            dom.getBoardTitle();
+            dom.createBoard();
         });
     },
     loadBoards: function () {
@@ -18,6 +18,8 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
             let boardsRemove = document.querySelectorAll('.board-remove');
             dom.addEventHandlerToBoardsDelete(boardsRemove);
+            let boardsHeader = document.querySelectorAll('.board-header');
+            dom.addEventHandlerToAddCard(boardsHeader)
         });
     },
     createBoardContainerHTML: function () {
@@ -33,14 +35,20 @@ export let dom = {
     },
     showBoards: function (boards) {
         let boardHTML = '';
-
         for (let board of boards) {
             boardHTML += `
                     <section class="board" data-id="${board.id}">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
-                    <button class="board-add">Add Card</button>
-                    <button class="board-remove" data-boardId="${board.id}"><i class="fas fa-trash-alt"></i></button>
+                    <div class="board-header" data-boardId="${board.id}"><span class="board-title">${board.title}</span>
+                    <button class="board-add" data-boardId="${board.id}">Add Card</button>
+                    <div class="input-group input-group-sm" style="display: none" data-boardId="${board.id}">
+                    <input type="text" class="form-control card-name-input" data-boardId="${board.id}" placeholder="Card's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" data-boardId="${board.id}">Cancel</button>
+                    <button class="btn btn-outline-primary" type="button" data-boardId="${board.id}">Save</button>
+                    </div>
+                    </div>
                     <button class="board-toggle" data-boardId="${board.id}"><i class="fas fa-chevron-down"></i></button>
+                    <button class="board-remove" data-boardId="${board.id}"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     </section>
                     `;
@@ -73,7 +81,36 @@ export let dom = {
             })
         }
     },
-
+    addEventHandlerToAddCard : function(boardsHeader) {
+        for (let boardHeader of boardsHeader) {
+            let boardAdd = boardHeader.querySelector('.board-add');
+            let cardNameInputGroup = boardHeader.querySelector('.input-group');
+            boardAdd.addEventListener('click', function () {
+                cardNameInputGroup.style.display = 'inline-flex';
+            });
+            dom.addEventHandlerToAddCardSave(cardNameInputGroup);
+            dom.addEventHandlerToAddCardCancel(cardNameInputGroup);
+        }
+    },
+    addEventHandlerToAddCardSave: function(cardNameInputGroup) {
+        let saveButton = cardNameInputGroup.querySelector('.btn-outline-primary')
+        saveButton.addEventListener('click', function() {
+            let boardId = cardNameInputGroup.getAttribute('data-boardId');
+            let cardTitle = cardNameInputGroup.querySelector(`.card-name-input`).value;
+            dom.hideInputGroup(cardNameInputGroup);
+            dom.createCard(cardTitle, boardId)
+        })
+    },
+    addEventHandlerToAddCardCancel: function(cardNameInputGroup) {
+        let cancelButton = cardNameInputGroup.querySelector('.btn-outline-secondary')
+        cancelButton.addEventListener('click', function() {
+            dom.hideInputGroup(cardNameInputGroup);
+        })
+    },
+    hideInputGroup: function(cardNameInputGroup) {
+        cardNameInputGroup.querySelector(`.card-name-input`).value = '';
+        cardNameInputGroup.style.display = 'none';
+    },
     expandBoard: function (boardId) {
         dataHandler.getStatuses(function (allStatuses) {
         let statusColumns = '';
@@ -128,7 +165,7 @@ export let dom = {
         }
     },
     // here comes more features
-    getBoardTitle:function() {
+    createBoard:function() {
         let boardTitle = document.querySelector('#board-name').value;
         dataHandler.createNewBoard(boardTitle, function(response) {
             response.title = boardTitle;
@@ -138,6 +175,22 @@ export let dom = {
             dom.addEventHandlerToBoardsToggle(boardsToggle);
             let boardsRemove = document.querySelectorAll(`.board-remove[data-boardId="${response.id}"]`);
             dom.addEventHandlerToBoardsDelete(boardsRemove);
+            let boardsHeader = document.querySelectorAll(`.board-header[data-boardId="${response.id}"]`);
+            dom.addEventHandlerToAddCard(boardsHeader);
+        });
+        document.querySelector('#board-name').value = '';
+    },
+    createCard:function(cardTitle, boardId) {
+        dataHandler.createNewCard(cardTitle, boardId, function(response) {
+            let boardContainer = document.querySelector(`.board[data-id="${boardId}"]`);
+
+                if(boardContainer.querySelector('.board-columns')){
+                    boardContainer.removeChild(boardContainer.querySelector('.board-columns'))
+                } else {
+                    dom.expandBoard(boardId);
+                }
         })
- },
+    }
 };
+
+

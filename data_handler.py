@@ -69,3 +69,8 @@ def create_board(board_title):
 
 def delete_board(board_id):
     return data_handler_sql.delete_board(board_id)
+
+
+def create_card(card_data):
+
+    return data_handler_sql.create_card(card_data)

@@ -1,6 +1,7 @@
 from psycopg2.extras import RealDictCursor
 import database_common
 
+
 # SQL STARTS FROM HERE
 
 
@@ -22,14 +23,15 @@ def create_card(cursor: RealDictCursor, card_data):
     query = f"""
             INSERT INTO cards (board_id, title, status_id, "order")
             VALUES (
-            %(board_id)s,
-            %(title)s,
+            %(boardId)s,
+            %(cardTitle)s,
             DEFAULT, 
-            %(order)s
+            DEFAULT
             )
---             RETURNING id
+            RETURNING id
             ;"""
     cursor.execute(query, card_data)
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -52,6 +54,7 @@ def get_cards(cursor: RealDictCursor):
             ;"""
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def get_statuses(cursor: RealDictCursor):
