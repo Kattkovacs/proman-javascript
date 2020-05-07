@@ -186,6 +186,7 @@ export let dom = {
 
                 if(boardContainer.querySelector('.board-columns')){
                     boardContainer.removeChild(boardContainer.querySelector('.board-columns'))
+                    dom.expandBoard(boardId);
                 } else {
                     dom.expandBoard(boardId);
                 }
