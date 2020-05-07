@@ -37,13 +37,19 @@ export let dom = {
     },
     showBoards: function (boards) {
         let boardHTML = '';
-
+        // <input type="hidden" class="card-name-input" data-boardId="${board.id}" placeholder="Type card name here...">
         for (let board of boards) {
             boardHTML += `
                     <section class="board" data-id="${board.id}">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                     <button class="board-add" data-boardId="${board.id}">Add Card</button>
-                    <input type="hidden" class="card-name-input" data-boardId="${board.id}" placeholder="Type card name here...">
+                    <div class="input-group input-group-sm" style="display: none">
+                    <input type="text" class="form-control card-name-input" data-boardId="${board.id}" placeholder="Card's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">Cancel</button>
+                    <button class="btn btn-outline-primary" type="button">Save</button>
+                    </div>
+                    </div>
                     <button class="board-toggle" data-boardId="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     <button class="board-remove" data-boardId="${board.id}"><i class="fas fa-trash-alt"></i></button>
                     </div>
@@ -91,17 +97,31 @@ export let dom = {
     //         })
     //     }
     // },
+    // This eventHandler works with one single input-field!
+    // addEventHandlerToAddCard : function(boardsHeader) {
+    //     for (let boardHeader of boardsHeader) {
+    //         let boardAdd = boardHeader.querySelector('.board-add');
+    //         boardAdd.addEventListener('click', function () {
+    //             let cardNameInput = boardHeader.querySelector('.card-name-input');
+    //             if(cardNameInput.getAttribute('type') === 'hidden') {
+    //                 cardNameInput.setAttribute('type', 'text');
+    //                 boardAdd.innerHTML='Cancel'
+    //             } else {
+    //                 cardNameInput.setAttribute('type', 'hidden');
+    //                 boardAdd.innerHTML='Add Card'
+    //             }
+    //         })
+    //     }
+    // },
     addEventHandlerToAddCard : function(boardsHeader) {
         for (let boardHeader of boardsHeader) {
             let boardAdd = boardHeader.querySelector('.board-add');
             boardAdd.addEventListener('click', function () {
-                let cardNameInput = boardHeader.querySelector('.card-name-input');
-                if(cardNameInput.getAttribute('type') === 'hidden') {
-                    cardNameInput.setAttribute('type', 'text');
-                    boardAdd.innerHTML='Cancel'
+                let cardNameInputGroup = boardHeader.querySelector('.input-group');
+                if (cardNameInputGroup.style.display === 'none') {
+                    cardNameInputGroup.style.display = 'inline-flex';
                 } else {
-                    cardNameInput.setAttribute('type', 'hidden');
-                    boardAdd.innerHTML='Add Card'
+                    cardNameInputGroup.style.display = 'none';
                 }
             })
         }

@@ -34,6 +34,7 @@ button{
     font-size: 14px;
     font-family: sans-serif;
     padding: 4px 10px;
+    border-radius: .25rem;
 }
 
 .board-container{
@@ -141,4 +142,15 @@ section.board{
 
 .card-title{
     padding-right: 16px;
+}
+
+.input-group {
+    /*display property managed by JavaScript default=none; when display=inline-flex*/
+    position: relative;
+    flex-wrap: wrap;
+    width: 30%;
+}
+
+add-card-input {
+    display: none;
 }
