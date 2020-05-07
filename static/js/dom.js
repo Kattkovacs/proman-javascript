@@ -84,12 +84,12 @@ export let dom = {
     addEventHandlerToAddCard : function(boardsHeader) {
         for (let boardHeader of boardsHeader) {
             let boardAdd = boardHeader.querySelector('.board-add');
+            let cardNameInputGroup = boardHeader.querySelector('.input-group');
             boardAdd.addEventListener('click', function () {
-                let cardNameInputGroup = boardHeader.querySelector('.input-group');
                 cardNameInputGroup.style.display = 'inline-flex';
-                dom.addEventHandlerToAddCardSave(cardNameInputGroup);
-                dom.addEventHandlerToAddCardCancel(cardNameInputGroup);
-            })
+            });
+            dom.addEventHandlerToAddCardSave(cardNameInputGroup);
+            dom.addEventHandlerToAddCardCancel(cardNameInputGroup);
         }
     },
     addEventHandlerToAddCardSave: function(cardNameInputGroup) {
@@ -182,8 +182,6 @@ export let dom = {
     },
     createCard:function(cardTitle, boardId) {
         dataHandler.createNewCard(cardTitle, boardId, function(response) {
-            console.log('helló');
-            // dom.expandBoard(boardId);
             let boardContainer = document.querySelector(`.board[data-id="${boardId}"]`);
 
                 if(boardContainer.querySelector('.board-columns')){
