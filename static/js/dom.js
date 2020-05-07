@@ -43,11 +43,11 @@ export let dom = {
                     <section class="board" data-id="${board.id}">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                     <button class="board-add" data-boardId="${board.id}">Add Card</button>
-                    <div class="input-group input-group-sm" style="display: none">
+                    <div class="input-group input-group-sm" style="display: none" data-boardId="${board.id}">
                     <input type="text" class="form-control card-name-input" data-boardId="${board.id}" placeholder="Card's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">Cancel</button>
-                    <button class="btn btn-outline-primary" type="button">Save</button>
+                    <button class="btn btn-outline-secondary" type="button" data-boardId="${board.id}">Cancel</button>
+                    <button class="btn btn-outline-primary" type="button" data-boardId="${board.id}">Save</button>
                     </div>
                     </div>
                     <button class="board-toggle" data-boardId="${board.id}"><i class="fas fa-chevron-down"></i></button>
@@ -125,6 +125,21 @@ export let dom = {
                 }
             })
         }
+    },
+    addEventHandlerToAddCardSave: function(SaveButton) {
+        SaveButton.addEventListener('click', function() => {
+            let boardId = SaveButton.getAttribute('data-boardId');
+            let cardTitle = document.querySelector(`.card-name-input[data-id="${boardId}"]`);
+            let inputGroup = document.querySelector(`.input-group[data-id="${boardId}"]`);
+            dom.hideInputGroup(inputGroup);
+            dom.createCard(cardTitle, boardId)
+
+        })
+    },
+    hideInputGroup: function(inputGroup) {
+      inputGroup.innerHTML = '';
+      inputGroup.style.display = 'none';
+
     },
     expandBoard: function (boardId) {
         dataHandler.getStatuses(function (allStatuses) {
