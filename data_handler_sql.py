@@ -23,14 +23,17 @@ def create_card(cursor: RealDictCursor, card_data):
     query = f"""
             INSERT INTO cards (board_id, title, status_id, "order")
             VALUES (
-            %(boardId)s,
-            %(cardTitle)s,
+            %(board_id)s,
+            %(card_title)s,
             DEFAULT, 
             DEFAULT
             )
             RETURNING id
             ;"""
-    cursor.execute(query, card_data)
+    cursor.execute(query, {
+        'board_id': card_data['boardId'],
+        'card_title': card_data['cardTitle']
+    })
     return cursor.fetchone()
 
 
